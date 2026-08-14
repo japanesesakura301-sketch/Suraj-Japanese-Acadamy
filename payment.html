@@ -3,89 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment & Test Access - Suraj Japanese Academy</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="supabase.js"></script>
+    <title>Payment - Suraj Japanese Academy</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
-        body { background: #f4f6f9; padding: 20px; }
-        .pay-card { max-width: 500px; margin: auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        h2 { color: #1a5276; margin-bottom: 15px; font-size: 1.3rem; text-align: center; }
-        .qr-sec { text-align: center; margin: 15px 0; background: #f8f9fa; padding: 15px; border-radius: 8px; }
-        .qr-sec img { width: 180px; height: 180px; border-radius: 8px; border: 1px solid #ddd; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9rem; }
-        input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; }
-        .btn-pay { width: 100%; padding: 12px; background: #27ae60; color: white; border: none; border-radius: 6px; font-weight: bold; font-size: 1rem; cursor: pointer; }
-        .back-btn { display: inline-block; margin-bottom: 15px; color: #1a5276; text-decoration: none; font-weight: bold; }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+        h2 { color: #5c2d91; margin-bottom: 10px; }
+        p { color: #555; font-size: 0.95rem; line-height: 1.4; }
+        .qr-card {
+            border: 2px dashed #5c2d91;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            background: #faf8ff;
+        }
+        .qr-card img {
+            width: 100%;
+            max-width: 280px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            image-rendering: -webkit-optimize-contrast; /* Clear/Sharp बनाउने CSS */
+        }
+        .form-group {
+            text-align: left;
+            margin-bottom: 15px;
+        }
+        label {
+            font-weight: bold;
+            font-size: 0.9rem;
+            color: #333;
+            display: block;
+            margin-bottom: 5px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 1rem;
+        }
+        button {
+            width: 100%;
+            background-color: #5c2d91;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover { background-color: #472272; }
+        .note {
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: 15px;
+        }
     </style>
 </head>
 <body>
 
-    <div class="pay-card">
-        <a href="index.html" class="back-btn">← Home मा फर्कनुहोस्</a>
-        <h2>Paid Mock Test - Unlocking Form</h2>
-        
-        <div class="qr-sec">
-            <p style="font-size: 0.9rem; color: #555;">eSewa / Fonepay QR scan गरी भुक्तानी गर्नुहोस्:</p>
-            <div style="background: #eee; width: 180px; height: 180px; margin: 10px auto; display: flex; align-items: center; justify-content: center; border-radius: 8px;">
-                <span style="font-size: 0.8rem; color: #777;">[तपाईंको QR Image यहाँ]</span>
-            </div>
-            <p><strong>eSewa ID:</strong> 98XXXXXXX</p>
-            <p><strong>शुल्क:</strong> NPR 500</p>
-        </div>
+<div class="container">
+    <h2>परीक्षा शुल्क भुक्तानी</h2>
+    <p>तल दिइएको Khalti / eSewa QR Scan गरेर <b>रु. ५००</b> भुक्तानी गर्नुहोस् र आफ्नो विवरण भर्नुहोस्।</p>
 
-        <form id="payment-form" onsubmit="submitPayment(event)">
-            <div class="form-group">
-                <label>तपाईंको पूरा नाम (Full Name)</label>
-                <input type="text" id="stu-name" required placeholder="उदा: Ram Shrestha">
-            </div>
-
-            <div class="form-group">
-                <label>इमेल वा मोबाइल नम्बर (Registered Contact)</label>
-                <input type="text" id="stu-contact" required placeholder="उदा: 9812345678">
-            </div>
-
-            <div class="form-group">
-                <label>Transaction ID / Reference Code</label>
-                <input type="text" id="trx-id" required placeholder="उदा: 8X92K01L">
-            </div>
-
-            <button type="submit" class="btn-pay" id="pay-btn">Payment Details पठाउनुहोस्</button>
-        </form>
+    <!-- Khalti QR Code Box (Direct Original Image) -->
+    <div class="qr-card">
+        <img src="https://i.ibb.co/t6KJpQ4/image.jpg" alt="Khalti QR Code">
+        <p style="margin-top: 10px; font-weight: bold; color: #5c2d91;">Suraj Japanese Academy</p>
     </div>
 
-    <script>
-        async function submitPayment(e) {
-            e.preventDefault();
-            const btn = document.getElementById('pay-btn');
-            btn.innerText = "पठाउँदैछ...";
-            btn.disabled = true;
+    <!-- Verification Form -->
+    <form id="paymentForm">
+        <div class="form-group">
+            <label for="name">पूरा नाम (Full Name):</label>
+            <input type="text" id="name" required placeholder="तपाईंको नाम लेख्नुहोस्">
+        </div>
+        <div class="form-group">
+            <label for="email">इमेल (Email):</label>
+            <input type="email" id="email" required placeholder="example@gmail.com">
+        </div>
+        <div class="form-group">
+            <label for="phone">फोन/Khalti नम्बर:</label>
+            <input type="tel" id="phone" required placeholder="98XXXXXXXX">
+        </div>
+        <div class="form-group">
+            <label for="txId">Transaction ID / Ref ID:</label>
+            <input type="text" id="txId" required placeholder="भुक्तानीपछिको Transaction ID">
+        </div>
 
-            const name = document.getElementById('stu-name').value;
-            const contact = document.getElementById('stu-contact').value;
-            const trxId = document.getElementById('trx-id').value;
+        <button type="submit">Submit Verification</button>
+    </form>
 
-            const { data, error } = await _supabase
-                .from('payments')
-                .insert([{
-                    package_name: 'Kaigo Paid Package 1',
-                    amount: 500,
-                    transaction_id: trxId,
-                    payment_status: 'pending',
-                    access_active: false
-                }]);
+    <p class="note">⚠️ विवरण पठाएपछि Admin ले रुजु गरेर परीक्षाका लागि Approval दिनेछन्।</p>
+</div>
 
-            if (error) {
-                alert("समस्या आयो: " + error.message);
-            } else {
-                alert("तपाईंको भुक्तानी विवरण प्राप्त भयो! Admin ले verification गरेपछि Paid Test unlock हुनेछ।");
-                document.getElementById('payment-form').reset();
-            }
-
-            btn.innerText = "Payment Details पठाउनुहोस्";
-            btn.disabled = false;
-        }
-    </script>
 </body>
 </html>
