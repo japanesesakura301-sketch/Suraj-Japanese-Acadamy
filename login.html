@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Login & Register - Suraj Japanese Academy</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f4f7f6;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header Bar */
+        header {
+            background-color: #1a5276;
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+        }
+
+        .academy-name {
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        /* Main Container */
+        .container {
+            padding: 20px;
+            max-width: 450px;
+            width: 100%;
+            margin: auto;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #1a5276;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        /* Auth Card */
+        .auth-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+
+        /* Tab Switcher */
+        .tab-box {
+            display: flex;
+            background-color: #eaeaea;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            background: none;
+            font-weight: bold;
+            font-size: 1rem;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            background-color: white;
+            color: #1a5276;
+            border-bottom: 3px solid #1a5276;
+        }
+
+        /* Form Area */
+        .form-content {
+            padding: 25px 20px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #444;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1.5px solid #ccc;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus {
+            border-color: #3498db;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 12px;
+            background-color: #1a5276;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.2s;
+        }
+
+        .btn-submit:hover {
+            background-color: #143e59;
+        }
+
+        /* Form Visibility Toggle */
+        #register-form {
+            display: none;
+        }
+
+        /* Footer Note */
+        footer {
+            text-align: center;
+            padding: 15px;
+            font-size: 0.8rem;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Bar -->
+    <header>
+        <div class="academy-name">Suraj Japanese Academy</div>
+    </header>
+
+    <div class="container">
+        <a href="index.html" class="back-link">← Home Page मा फर्कनुहोस्</a>
+
+        <div class="auth-card">
+            <!-- Tabs -->
+            <div class="tab-box">
+                <button class="tab-btn active" id="tab-login" onclick="switchTab('login')">Login (लगइन)</button>
+                <button class="tab-btn" id="tab-register" onclick="switchTab('register')">Register (दर्ता)</button>
+            </div>
+
+            <div class="form-content">
+                
+                <!-- 1. LOGIN FORM -->
+                <form id="login-form" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label for="login-email">इमेल वा फोन नम्बर (Email / Mobile)</label>
+                        <input type="text" id="login-email" placeholder="उदाहरण: 9800000000" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="login-password">पासवर्ड (Password)</label>
+                        <input type="password" id="login-password" placeholder="••••••••" required>
+                    </div>
+
+                    <button type="submit" class="btn-submit">Login गर्नुहोस्</button>
+                </form>
+
+                <!-- 2. REGISTER FORM -->
+                <form id="register-form" onsubmit="handleRegister(event)">
+                    <div class="form-group">
+                        <label for="reg-name">पुरा नाम (Full Name)</label>
+                        <input type="text" id="reg-name" placeholder="उदाहरण: Suraj Gurung" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reg-email">इमेल वा फोन नम्बर (Email / Mobile)</label>
+                        <input type="text" id="reg-email" placeholder="उदाहरण: suraj@gmail.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reg-password">नयाँ पासवर्ड (Password)</label>
+                        <input type="password" id="reg-password" placeholder="कम्तिमा ६ वटा अक्षर/अङ्क" required minlength="6">
+                    </div>
+
+                    <button type="submit" class="btn-submit" style="background-color: #27ae60;">Register (खाता बनाउनुहोस्)</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Suraj Japanese Academy</p>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Tab Switch logic (Login र Register बिच साट्न)
+        function switchTab(tab) {
+            const loginForm = document.getElementById('login-form');
+            const regForm = document.getElementById('register-form');
+            const tabLogin = document.getElementById('tab-login');
+            const tabReg = document.getElementById('tab-register');
+
+            if (tab === 'login') {
+                loginForm.style.display = 'block';
+                regForm.style.display = 'none';
+                tabLogin.classList.add('active');
+                tabReg.classList.remove('active');
+            } else {
+                loginForm.style.display = 'none';
+                regForm.style.display = 'block';
+                tabReg.classList.add('active');
+                tabLogin.classList.remove('active');
+            }
+        }
+
+        // Temporary Login Handler
+        function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            alert(`स्वागत छ! ${email}\n(Backend / Database जोड्ने काम STEP 7 मा हुनेछ!)`);
+            location.href = 'index.html';
+        }
+
+        // Temporary Register Handler
+        function handleRegister(e) {
+            e.preventDefault();
+            const name = document.getElementById('reg-name').value;
+            alert(`बधाई छ ${name}! तपाईंको खाता तयार भयो।\n(अब लगइन गर्नुहोस्)`);
+            switchTab('login');
+        }
+    </script>
+
+</body>
+</html>

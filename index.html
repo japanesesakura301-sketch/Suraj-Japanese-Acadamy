@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suraj Japanese Academy - Japanese Language & Skill Test</title>
+    <!-- Supabase Library & Config -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: #1a5276;
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            font-weight: bold;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 15px;
+            font-weight: 500;
+        }
+
+        nav a.btn-login {
+            background-color: #27ae60;
+            padding: 6px 15px;
+            border-radius: 4px;
+        }
+
+        .hero {
+            background: linear-gradient(rgba(26, 82, 118, 0.8), rgba(26, 82, 118, 0.8)), url('https://images.unsplash.com/photo-1528164344705-47542687990d?auto=format&fit=crop&w=1000&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .hero h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .notice-board {
+            background-color: #eaf2f8;
+            border-left: 5px solid #1a5276;
+            padding: 15px 20px;
+            border-radius: 4px;
+            margin-bottom: 30px;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 25px;
+            text-align: center;
+            border-top: 4px solid #1a5276;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card.paid {
+            border-top-color: #c0392b;
+        }
+
+        .card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: #1a5276;
+        }
+
+        .card.paid h3 {
+            color: #c0392b;
+        }
+
+        .card p {
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #1a5276;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background 0.3s;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .btn-paid {
+            background-color: #c0392b;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #2c3e50;
+            color: white;
+            margin-top: 40px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">Suraj Japanese Academy</div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="admin.html" style="background: #f39c12; padding: 4px 10px; border-radius: 4px;">Admin Panel</a>
+            <a href="login.html" class="btn-login">Login</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>JFT, JLPT र Kaigo परीक्षाको तयारी</h1>
+        <p>जापान जानका लागि आवश्यक पर्ने भाषा र सीप परीक्षाको नि:शुल्क तथा उत्कृष्ट मोडल सेटहरू</p>
+    </section>
+
+    <div class="container">
+        <div class="notice-board">
+            <h3>📢 सूचना (Notice)</h3>
+            <p>हाम्रो अनलाइन प्लेटफर्ममा स्वागत छ! नि:शुल्क परीक्षा दिएर आफ्नो तयारीको स्तर जाँच्नुहोस्। Full Package र Real Exam Pattern को लागि Paid Test लिन सक्नुहुन्छ।</p>
+        </div>
+
+        <div class="cards-grid">
+            <!-- Free Test Card -->
+            <div class="card">
+                <div>
+                    <h3>Free Kaigo Mock Test</h3>
+                    <p>सबै विद्यार्थीहरूका लागि नि:शुल्क उपलब्ध मूलभूत मोडल प्रश्नहरू।</p>
+                </div>
+                <a href="test.html" class="btn">Start Free Test</a>
+            </div>
+
+            <!-- Paid Test Card -->
+            <div class="card paid">
+                <div>
+                    <h3>Paid Kaigo Mock Test</h3>
+                    <p>विशेष १००% Exam Oriented प्रश्नहरू र विस्तृत नतिजा analysis ।</p>
+                </div>
+                <a href="payment.html" class="btn btn-paid">Unlock Paid Test</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Suraj Japanese Academy. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>

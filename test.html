@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaigo Mock Test - Suraj Japanese Academy</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f4f7f6;
+            color: #333;
+            padding-bottom: 30px;
+        }
+
+        /* Header Bar */
+        header {
+            background-color: #1a5276;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .academy-name {
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        .timer-box {
+            background-color: #e74c3c;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        /* Main Container */
+        .container {
+            padding: 15px;
+            max-width: 600px;
+            margin: auto;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 15px;
+            color: #1a5276;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        /* Question Status Bar */
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            color: #555;
+            font-weight: 600;
+        }
+
+        /* Question Card */
+        .question-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+
+        .question-text {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #1a5276;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        /* Options */
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-item {
+            background-color: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 12px 15px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .option-item.selected {
+            border-color: #3498db;
+            background-color: #ebf5fb;
+            font-weight: 600;
+        }
+
+        .option-prefix {
+            font-weight: bold;
+            margin-right: 10px;
+            color: #1a5276;
+        }
+
+        /* Navigation Buttons */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 0.95rem;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .btn-prev {
+            background-color: #bdc3c7;
+            color: #2c3e50;
+        }
+
+        .btn-prev:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-next {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .btn-next:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-submit {
+            background-color: #27ae60;
+            color: white;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        /* Result Section Style */
+        .result-card {
+            background: white;
+            padding: 25px 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            text-align: center;
+            display: none; /* सुरुमा लुकेको रहनेछ */
+        }
+
+        .result-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .badge-pass { background-color: #27ae60; }
+        .badge-fail { background-color: #e74c3c; }
+
+        .result-score {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #1a5276;
+            margin-bottom: 15px;
+        }
+
+        .result-details {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dashed #ddd;
+            font-size: 0.95rem;
+        }
+
+        .result-row:last-child {
+            border-bottom: none;
+        }
+
+        .text-green { color: #27ae60; font-weight: bold; }
+        .text-red { color: #e74c3c; font-weight: bold; }
+
+        .btn-retry {
+            background-color: #f39c12;
+            color: white;
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Bar -->
+    <header>
+        <div class="academy-name">Suraj Japanese Academy</div>
+        <div class="timer-box" id="timer-display">Time: 10:00</div>
+    </header>
+
+    <div class="container">
+        
+        <a href="index.html" class="back-link">← Home Page मा फर्कनुहोस्</a>
+
+        <!-- Test Box (Questions View) -->
+        <div id="quiz-box">
+            <!-- Status Info -->
+            <div class="status-bar">
+                <span>Question <span id="current-q-num">1</span> of <span id="total-q-num">3</span></span>
+                <span>Category: Kaigo Basic</span>
+            </div>
+
+            <!-- Question Box -->
+            <div class="question-card">
+                <div class="question-text" id="question-text">
+                    प्रश्नोत्तर लोड हुँदैछ...
+                </div>
+
+                <!-- Dynamic Options List -->
+                <div class="options-list" id="options-list"></div>
+            </div>
+
+            <!-- Next / Prev Buttons -->
+            <div class="nav-buttons">
+                <button class="btn btn-prev" id="btn-prev" onclick="prevQuestion()">Previous</button>
+                <button class="btn btn-next" id="btn-next" onclick="nextQuestion()">Next</button>
+            </div>
+
+            <!-- Submit Button -->
+            <button class="btn btn-submit" onclick="submitTest()">Submit Test</button>
+        </div>
+
+        <!-- Result Box (Hidden by default) -->
+        <div class="result-card" id="result-box">
+            <h2>Exam Result</h2>
+            <p style="color: #666; margin-bottom: 15px; font-size: 0.9rem;">Suraj Japanese Academy - Kaigo Mock Test</p>
+            
+            <div class="result-badge" id="pass-fail-badge">PASS</div>
+            
+            <div class="result-score" id="percentage-text">0%</div>
+
+            <div class="result-details">
+                <div class="result-row">
+                    <span>Total Questions:</span>
+                    <span id="res-total">0</span>
+                </div>
+                <div class="result-row">
+                    <span>Correct Answers:</span>
+                    <span class="text-green" id="res-correct">0</span>
+                </div>
+                <div class="result-row">
+                    <span>Wrong Answers:</span>
+                    <span class="text-red" id="res-wrong">0</span>
+                </div>
+                <div class="result-row">
+                    <span>Unanswered:</span>
+                    <span id="res-unanswered">0</span>
+                </div>
+            </div>
+
+            <button class="btn-retry" onclick="retryTest()">Retry Test (पुनः प्रयास गर्नुहोस्)</button>
+            <button class="btn btn-prev" style="width: 100%;" onclick="location.href='index.html'">Go to Home Page</button>
+        </div>
+
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        const questions = [
+            {
+                question: "介護 (Kaigo) को मुख्य उद्देश्य के हो?",
+                options: [
+                    "बिरामीलाई अस्पताल लैजाने मात्र",
+                    "व्यक्तिलाई आफ्नो क्षमता अनुसार आत्मनिर्भर जीवन जिउन सहयोग गर्ने",
+                    "केवल खाना पकाएर खुवाउने",
+                    "औषधि बिक्री गर्ने"
+                ],
+                correct: 1
+            },
+            {
+                question: "高齢者 (वृद्धवृद्धा) सँग कुरा गर्दा ध्यान दिनुपर्ने कुरा के हो?",
+                options: [
+                    "धेरै छिटो छिटो बोल्ने",
+                    "आँखामा हेरेर स्पष्ट र बिस्तारै बोल्ने",
+                    "ठूलो स्वरले कराउने",
+                    "कुरा नसुनी आफ्नो काम मात्र गर्ने"
+                ],
+                correct: 1
+            },
+            {
+                question: "Handwashing (हात धुने) को सही तरिका कुन हो?",
+                options: [
+                    "साबुन र पानीले कम्तिमा २० सेकेन्ड राम्ररी मिचेर धुने",
+                    "पानीमा मात्र हात भिजाउने",
+                    "कपडाले पुछ्ने मात्र",
+                    "पानी नचलाई सुख्खा राख्ने"
+                ],
+                correct: 0
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let selectedAnswers = Array(questions.length).fill(null);
+        let totalSeconds = 10 * 60;
+        let timerInterval = null;
+
+        function startTimer() {
+            const timerDisplay = document.getElementById('timer-display');
+            
+            timerInterval = setInterval(() => {
+                let minutes = Math.floor(totalSeconds / 60);
+                let seconds = totalSeconds % 60;
+
+                minutes = minutes < 10 ? '0' + minutes : minutes;
+                seconds = seconds < 10 ? '0' + seconds : seconds;
+
+                timerDisplay.innerText = `Time: ${minutes}:${seconds}`;
+
+                if (totalSeconds <= 0) {
+                    clearInterval(timerInterval);
+                    alert("समय समाप्त भयो!");
+                    submitTest(); // टाइम सकिएपछि आफैं सबमिट हुने
+                } else {
+                    totalSeconds--;
+                }
+            }, 1000);
+        }
+
+        function loadQuestion() {
+            const q = questions[currentQuestionIndex];
+
+            document.getElementById('current-q-num').innerText = currentQuestionIndex + 1;
+            document.getElementById('total-q-num').innerText = questions.length;
+            document.getElementById('question-text').innerText = `प्रश्न ${currentQuestionIndex + 1}: ${q.question}`;
+
+            const optionsContainer = document.getElementById('options-list');
+            optionsContainer.innerHTML = '';
+
+            const prefixes = ['A', 'B', 'C', 'D'];
+
+            q.options.forEach((optText, index) => {
+                const optDiv = document.createElement('div');
+                optDiv.className = 'option-item';
+
+                if (selectedAnswers[currentQuestionIndex] === index) {
+                    optDiv.classList.add('selected');
+                }
+
+                optDiv.innerHTML = `<span class="option-prefix">${prefixes[index]}.</span> ${optText}`;
+                optDiv.onclick = () => selectOption(index);
+
+                optionsContainer.appendChild(optDiv);
+            });
+
+            document.getElementById('btn-prev').disabled = (currentQuestionIndex === 0);
+            document.getElementById('btn-next').disabled = (currentQuestionIndex === questions.length - 1);
+        }
+
+        function selectOption(index) {
+            selectedAnswers[currentQuestionIndex] = index;
+            loadQuestion();
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                loadQuestion();
+            }
+        }
+
+        // ५. Submit Logic र Score Calculation
+        function submitTest() {
+            if (confirm("के तपाईं परीक्षा सबमिट गर्न चाहनुहुन्छ?")) {
+                clearInterval(timerInterval); // टाइमर रोक्ने
+
+                let correctCount = 0;
+                let wrongCount = 0;
+                let unansweredCount = 0;
+
+                questions.forEach((q, index) => {
+                    const userAns = selectedAnswers[index];
+                    if (userAns === null) {
+                        unansweredCount++;
+                    } else if (userAns === q.correct) {
+                        correctCount++;
+                    } else {
+                        wrongCount++;
+                    }
+                });
+
+                const totalQ = questions.length;
+                const percentage = Math.round((correctCount / totalQ) * 100);
+
+                // Result Box मा Data देखाउने
+                document.getElementById('res-total').innerText = totalQ;
+                document.getElementById('res-correct').innerText = correctCount;
+                document.getElementById('res-wrong').innerText = wrongCount;
+                document.getElementById('res-unanswered').innerText = unansweredCount;
+                document.getElementById('percentage-text').innerText = percentage + '%';
+
+                const badge = document.getElementById('pass-fail-badge');
+                if (percentage >= 60) {
+                    badge.innerText = "PASS (सफल)";
+                    badge.className = "result-badge badge-pass";
+                } else {
+                    badge.innerText = "FAIL (असफल)";
+                    badge.className = "result-badge badge-fail";
+                }
+
+                // Quiz लुकाउने र Result देखाउने
+                document.getElementById('quiz-box').style.display = 'none';
+                document.getElementById('result-box').style.display = 'block';
+            }
+        }
+
+        // ६. Retry Test Function
+        function retryTest() {
+            currentQuestionIndex = 0;
+            selectedAnswers = Array(questions.length).fill(null);
+            totalSeconds = 10 * 60;
+
+            document.getElementById('quiz-box').style.display = 'block';
+            document.getElementById('result-box').style.display = 'none';
+
+            loadQuestion();
+            startTimer();
+        }
+
+        // Start App
+        loadQuestion();
+        startTimer();
+    </script>
+
+</body>
+</html>

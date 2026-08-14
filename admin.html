@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Suraj Japanese Academy</title>
+    <!-- Supabase JS Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #f0f2f5; color: #333; padding-bottom: 40px; }
+        header { background-color: #1a5276; color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .container { max-width: 700px; margin: 20px auto; padding: 0 15px; }
+        .admin-card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 25px; }
+        .admin-card h2 { color: #1a5276; font-size: 1.2rem; margin-bottom: 15px; border-bottom: 2px solid #eee; padding-bottom: 8px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-size: 0.9rem; font-weight: 600; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px 12px; border: 1.5px solid #ccc; border-radius: 6px; font-size: 0.95rem; outline: none; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .btn-add { width: 100%; padding: 12px; background-color: #27ae60; color: white; border: none; border-radius: 8px; font-weight: bold; font-size: 1rem; cursor: pointer; }
+        .back-link { display: inline-block; margin-bottom: 15px; color: #1a5276; text-decoration: none; font-weight: bold; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h3>Admin Panel - Suraj Academy</h3>
+        <span style="font-size: 0.85rem; background: #27ae60; padding: 4px 8px; border-radius: 4px; color: white;">Live Connected</span>
+    </header>
+
+    <div class="container">
+        <a href="index.html" class="back-link">← Home Page मा फर्कनुहोस्</a>
+
+        <!-- Add Question Card -->
+        <div class="admin-card">
+            <h2>१. नयाँ प्रश्न थप्नुहोस् (Add New Question)</h2>
+            <form id="add-question-form" onsubmit="handleAddQuestion(event)">
+                
+                <div class="form-group">
+                    <label for="q-text">प्रश्न (Question Text)</label>
+                    <textarea id="q-text" rows="3" placeholder="यहाँ प्रश्न टाइप गर्नुहोस्..." required></textarea>
+                </div>
+
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label for="opt-a">Option A</label>
+                        <input type="text" id="opt-a" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="opt-b">Option B</label>
+                        <input type="text" id="opt-b" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="opt-c">Option C</label>
+                        <input type="text" id="opt-c" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="opt-d">Option D</label>
+                        <input type="text" id="opt-d" required>
+                    </div>
+                </div>
+
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label for="correct-opt">सही उत्तर (Correct Option)</label>
+                        <select id="correct-opt" required>
+                            <option value="0">Option A</option>
+                            <option value="1">Option B</option>
+                            <option value="2">Option C</option>
+                            <option value="3">Option D</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="is-paid">प्रकार (Type)</label>
+                        <select id="is-paid" required>
+                            <option value="false">Free Test Question</option>
+                            <option value="true">Paid Test Question</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-add" id="btn-submit">Database मा सेभ गर्नुहोस्</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        async function handleAddQuestion(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btn-submit');
+            btn.innerText = "सेभ हुँदैछ...";
+            btn.disabled = true;
+
+            const questionData = {
+                question: document.getElementById('q-text').value,
+                option_a: document.getElementById('opt-a').value,
+                option_b: document.getElementById('opt-b').value,
+                option_c: document.getElementById('opt-c').value,
+                option_d: document.getElementById('opt-d').value,
+                correct_option: parseInt(document.getElementById('correct-opt').value),
+                is_paid: document.getElementById('is-paid').value === 'true'
+            };
+
+            // Supabase Database मा प्रश्न थप्ने (Insert)
+            const { data, error } = await _supabase
+                .from('questions')
+                .insert([questionData]);
+
+            if (error) {
+                alert("समस्या आयो: " + error.message);
+            } else {
+                alert("बधाई छ! नयाँ प्रश्न सफलतापूर्वक Supabase Database मा सेभ भयो।");
+                document.getElementById('add-question-form').reset();
+            }
+
+            btn.innerText = "Database मा सेभ गर्नुहोस्";
+            btn.disabled = false;
+        }
+    </script>
+</body>
+</html>
