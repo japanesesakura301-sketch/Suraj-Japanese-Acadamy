@@ -4,119 +4,188 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Suraj Japanese Academy</title>
-    <!-- Supabase JS Library -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="supabase.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #f0f2f5; color: #333; padding-bottom: 40px; }
-        header { background-color: #1a5276; color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
-        .container { max-width: 700px; margin: 20px auto; padding: 0 15px; }
-        .admin-card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 25px; }
-        .admin-card h2 { color: #1a5276; font-size: 1.2rem; margin-bottom: 15px; border-bottom: 2px solid #eee; padding-bottom: 8px; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-size: 0.9rem; font-weight: 600; }
-        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px 12px; border: 1.5px solid #ccc; border-radius: 6px; font-size: 0.95rem; outline: none; }
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .btn-add { width: 100%; padding: 12px; background-color: #27ae60; color: white; border: none; border-radius: 8px; font-weight: bold; font-size: 1rem; cursor: pointer; }
-        .back-link { display: inline-block; margin-bottom: 15px; color: #1a5276; text-decoration: none; font-weight: bold; font-size: 0.9rem; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+        body { background: #f4f7f6; color: #333; pb: 40px; }
+        
+        /* Mobile-First Layout */
+        .admin-container { max-width: 600px; margin: 0 auto; background: #fff; min-height: 100vh; box-shadow: 0 0 10px rgba(0,0,0,0.05); }
+        .header { background: #111827; color: #fff; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10; }
+        .header h1 { font-size: 16px; font-weight: 800; }
+        .header h1 span { color: #16a34a; }
+        .btn-logout { background: #dc2626; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; font-weight: bold; }
+
+        /* Loader Overlay */
+        #auth-loader { position: fixed; inset: 0; background: #ffffff; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 100; }
+        .spinner { width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid #16a34a; border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Stats Section */
+        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 15px; background: #f9fafb; border-bottom: 1px solid #e5e7eb; }
+        .stat-card { background: white; padding: 12px; border-radius: 10px; border: 1px solid #e5e7eb; text-align: center; }
+        .stat-card h3 { font-size: 20px; color: #16a34a; font-weight: 800; }
+        .stat-card p { font-size: 11px; color: #6b7280; font-weight: 600; margin-top: 2px; }
+
+        /* Tab Navigation */
+        .admin-nav { display: flex; overflow-x: auto; border-bottom: 1px solid #eee; background: #fff; }
+        .admin-nav button { flex: 1; min-width: 100px; padding: 12px 8px; border: none; background: none; font-size: 12px; font-weight: 700; color: #6b7280; cursor: pointer; white-space: nowrap; }
+        .admin-nav button.active { color: #16a34a; border-bottom: 3px solid #16a34a; }
+
+        /* Content Area */
+        .content { padding: 15px; }
+        .section-title { font-size: 15px; font-weight: 800; margin-bottom: 12px; color: #111827; display: flex; justify-content: space-between; align-items: center; }
+        
+        .btn-add { background: #16a34a; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; }
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
-    <header>
-        <h3>Admin Panel - Suraj Academy</h3>
-        <span style="font-size: 0.85rem; background: #27ae60; padding: 4px 8px; border-radius: 4px; color: white;">Live Connected</span>
-    </header>
+    <!-- Security Check Loading Screen -->
+    <div id="auth-loader">
+        <div class="spinner"></div>
+        <p style="margin-top: 15px; font-size: 13px; font-weight: bold; color: #555;">Admin Verification चल्दैछ...</p>
+    </div>
 
-    <div class="container">
-        <a href="index.html" class="back-link">← Home Page मा फर्कनुहोस्</a>
+    <div class="admin-container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Suraj Academy <span>Admin</span></h1>
+            <div>
+                <button onclick="handleAdminLogout()" class="btn-logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+            </div>
+        </div>
 
-        <!-- Add Question Card -->
-        <div class="admin-card">
-            <h2>१. नयाँ प्रश्न थप्नुहोस् (Add New Question)</h2>
-            <form id="add-question-form" onsubmit="handleAddQuestion(event)">
-                
-                <div class="form-group">
-                    <label for="q-text">प्रश्न (Question Text)</label>
-                    <textarea id="q-text" rows="3" placeholder="यहाँ प्रश्न टाइप गर्नुहोस्..." required></textarea>
+        <!-- Dashboard Stats Overview -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3 id="stat-students">0</h3>
+                <p>Total Students</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="stat-questions">0</h3>
+                <p>Total Questions</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="stat-tests">0</h3>
+                <p>Active Tests</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="stat-payments" style="color: #d97706;">0</h3>
+                <p>Pending Payments</p>
+            </div>
+        </div>
+
+        <!-- Admin Navigation Tabs -->
+        <div class="admin-nav">
+            <button onclick="switchAdminTab('questions')" id="tab-questions" class="active">Questions</button>
+            <button onclick="switchAdminTab('tests')" id="tab-tests">Tests</button>
+            <button onclick="switchAdminTab('packages')" id="tab-packages">Packages</button>
+            <button onclick="switchAdminTab('payments')" id="tab-payments">Payments</button>
+            <button onclick="switchAdminTab('users')" id="tab-users">Students</button>
+        </div>
+
+        <!-- Content Panels -->
+        <div class="content">
+            <!-- QUESTIONS MANAGER PANEL -->
+            <div id="panel-questions">
+                <div class="section-title">
+                    <span>📚 Question Manager</span>
+                    <button class="btn-add" onclick="alert('Step 7-E मा Question Add Form बनाइनेछ!')">+ Add Question</button>
                 </div>
-
-                <div class="grid-2">
-                    <div class="form-group">
-                        <label for="opt-a">Option A</label>
-                        <input type="text" id="opt-a" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="opt-b">Option B</label>
-                        <input type="text" id="opt-b" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="opt-c">Option C</label>
-                        <input type="text" id="opt-c" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="opt-d">Option D</label>
-                        <input type="text" id="opt-d" required>
-                    </div>
+                <div id="questions-container" style="font-size: 13px; color: #666; text-align: center; padding: 20px;">
+                    डाटा लोड हुँदैछ...
                 </div>
+            </div>
 
-                <div class="grid-2">
-                    <div class="form-group">
-                        <label for="correct-opt">सही उत्तर (Correct Option)</label>
-                        <select id="correct-opt" required>
-                            <option value="0">Option A</option>
-                            <option value="1">Option B</option>
-                            <option value="2">Option C</option>
-                            <option value="3">Option D</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="is-paid">प्रकार (Type)</label>
-                        <select id="is-paid" required>
-                            <option value="false">Free Test Question</option>
-                            <option value="true">Paid Test Question</option>
-                        </select>
-                    </div>
-                </div>
-
-                <button type="submit" class="btn-add" id="btn-submit">Database मा सेभ गर्नुहोस्</button>
-            </form>
+            <!-- OTHER PANELS (PLACEHOLDERS) -->
+            <div id="panel-tests" class="hidden"><p style="padding: 20px; text-align: center;">Tests Manager Panel</p></div>
+            <div id="panel-packages" class="hidden"><p style="padding: 20px; text-align: center;">Packages Manager Panel</p></div>
+            <div id="panel-payments" class="hidden"><p style="padding: 20px; text-align: center;">Payments Approval Panel</p></div>
+            <div id="panel-users" class="hidden"><p style="padding: 20px; text-align: center;">Student Management Panel</p></div>
         </div>
     </div>
 
-    <script>
-        async function handleAddQuestion(e) {
-            e.preventDefault();
-            const btn = document.getElementById('btn-submit');
-            btn.innerText = "सेभ हुँदैछ...";
-            btn.disabled = true;
+    <!-- SUPABASE INTEGRATION & SECURITY SCRIPT -->
+    <script type="module">
+        import { supabase } from './supabase.js';
 
-            const questionData = {
-                question: document.getElementById('q-text').value,
-                option_a: document.getElementById('opt-a').value,
-                option_b: document.getElementById('opt-b').value,
-                option_c: document.getElementById('opt-c').value,
-                option_d: document.getElementById('opt-d').value,
-                correct_option: parseInt(document.getElementById('correct-opt').value),
-                is_paid: document.getElementById('is-paid').value === 'true'
-            };
+        // 1. DATABASE SECURITY CHECK (SUPER ADMIN VERIFICATION)
+        async function verifyAdminAccess() {
+            try {
+                const { data: { user } } = await supabase.auth.getUser();
 
-            // Supabase Database मा प्रश्न थप्ने (Insert)
-            const { data, error } = await _supabase
-                .from('questions')
-                .insert([questionData]);
+                if (!user) {
+                    alert("कृपया पहिले लगइन गर्नुहोस्!");
+                    window.location.href = "login.html";
+                    return;
+                }
 
-            if (error) {
-                alert("समस्या आयो: " + error.message);
-            } else {
-                alert("बधाई छ! नयाँ प्रश्न सफलतापूर्वक Supabase Database मा सेभ भयो।");
-                document.getElementById('add-question-form').reset();
+                // Check Role in Profiles Table
+                const { data: profile, error } = await supabase
+                    .from('profiles')
+                    .select('role')
+                    .eq('id', user.id)
+                    .single();
+
+                if (error || !profile || profile.role !== 'admin') {
+                    alert("पहुँच अस्वीकृत! यो Dashboard केवल Admin को लागि हो।");
+                    window.location.href = "index.html";
+                    return;
+                }
+
+                // Security Verified - Remove Loader & Load Stats
+                document.getElementById('auth-loader').classList.add('hidden');
+                loadDashboardStats();
+
+            } catch (err) {
+                console.error(err);
+                alert("Security checking error occurred.");
+                window.location.href = "index.html";
             }
-
-            btn.innerText = "Database मा सेभ गर्नुहोस्";
-            btn.disabled = false;
         }
+
+        // 2. DASHBOARD OVERVIEW COUNTS
+        async function loadDashboardStats() {
+            // Count Questions
+            const { count: qCount } = await supabase.from('questions').select('*', { count: 'exact', head: true });
+            document.getElementById('stat-questions').innerText = qCount || 0;
+
+            // Count Tests
+            const { count: tCount } = await supabase.from('tests').select('*', { count: 'exact', head: true });
+            document.getElementById('stat-tests').innerText = tCount || 0;
+
+            // Count Students
+            const { count: sCount } = await supabase.from('profiles').select('*', { count: 'exact', head: true });
+            document.getElementById('stat-students').innerText = sCount || 0;
+
+            // Count Pending Payments
+            const { count: pCount } = await supabase.from('payments').select('*', { count: 'exact', head: true }).eq('status', 'pending');
+            document.getElementById('stat-payments').innerText = pCount || 0;
+
+            document.getElementById('questions-container').innerHTML = "<p>Database बाट प्रश्नहरू लोड गर्न तयार छ।</p>";
+        }
+
+        // Logout Handle
+        window.handleAdminLogout = async function() {
+            await supabase.auth.signOut();
+            window.location.href = "login.html";
+        }
+
+        // Tab Switching
+        window.switchAdminTab = function(tabName) {
+            ['questions', 'tests', 'packages', 'payments', 'users'].forEach(t => {
+                document.getElementById('panel-' + t).classList.add('hidden');
+                document.getElementById('tab-' + t).classList.remove('active');
+            });
+            document.getElementById('panel-' + tabName).classList.remove('hidden');
+            document.getElementById('tab-' + tabName).classList.add('active');
+        }
+
+        // Initialize Check
+        verifyAdminAccess();
     </script>
 </body>
 </html>
+
