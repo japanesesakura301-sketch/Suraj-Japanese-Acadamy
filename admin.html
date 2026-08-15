@@ -9,66 +9,64 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
         body { background: #f4f7f6; color: #333; padding-bottom: 40px; }
         
-        /* Mobile-First Layout */
         .admin-container { max-width: 600px; margin: 0 auto; background: #fff; min-height: 100vh; box-shadow: 0 0 10px rgba(0,0,0,0.05); }
         .header { background: #111827; color: #fff; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10; }
         .header h1 { font-size: 16px; font-weight: 800; }
         .header h1 span { color: #16a34a; }
         .btn-logout { background: #dc2626; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; font-weight: bold; }
 
-        /* Loader Overlay */
         #auth-loader { position: fixed; inset: 0; background: #ffffff; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 100; }
         .spinner { width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid #16a34a; border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* Stats Section */
         .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 15px; background: #f9fafb; border-bottom: 1px solid #e5e7eb; }
         .stat-card { background: white; padding: 12px; border-radius: 10px; border: 1px solid #e5e7eb; text-align: center; }
         .stat-card h3 { font-size: 20px; color: #16a34a; font-weight: 800; }
         .stat-card p { font-size: 11px; color: #6b7280; font-weight: 600; margin-top: 2px; }
 
-        /* Tab Navigation */
         .admin-nav { display: flex; overflow-x: auto; border-bottom: 1px solid #eee; background: #fff; }
         .admin-nav button { flex: 1; min-width: 100px; padding: 12px 8px; border: none; background: none; font-size: 12px; font-weight: 700; color: #6b7280; cursor: pointer; white-space: nowrap; }
         .admin-nav button.active { color: #16a34a; border-bottom: 3px solid #16a34a; }
 
-        /* Content Area */
         .content { padding: 15px; }
         .section-title { font-size: 15px; font-weight: 800; margin-bottom: 12px; color: #111827; display: flex; justify-content: space-between; align-items: center; }
         
         .btn-add { background: #16a34a; color: white; border: none; padding: 8px 14px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; }
         .hidden { display: none !important; }
 
-        /* Form Controls */
         .card-form { background: #ffffff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; margin-bottom: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
         .form-group { margin-bottom: 12px; }
         .form-group label { display: block; font-size: 12px; font-weight: 700; color: #374151; margin-bottom: 4px; }
         .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 13px; outline: none; background: #fff; }
-        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: #16a34a; }
         
         .btn-submit { width: 100%; background: #16a34a; color: white; padding: 12px; border: none; border-radius: 8px; font-weight: 700; font-size: 14px; cursor: pointer; }
         .btn-cancel { width: 100%; background: #6b7280; color: white; padding: 10px; border: none; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer; margin-top: 6px; }
 
-        /* Question Cards Display */
-        .q-card { background: #f9fafb; border-left: 4px solid #16a34a; border-radius: 8px; padding: 12px; margin-bottom: 10px; border-top: 1px solid #e5e7eb; border-right: 1px solid #e5e7eb; border-bottom: 1px solid #e5e7eb; position: relative; }
-        .q-title { font-size: 14px; font-weight: 700; color: #111827; margin-bottom: 8px; line-height: 1.4; }
+        .item-card { background: #f9fafb; border-left: 4px solid #16a34a; border-radius: 8px; padding: 12px; margin-bottom: 10px; border: 1px solid #e5e7eb; }
+        .item-title { font-size: 14px; font-weight: 700; color: #111827; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
+        .item-desc { font-size: 12px; color: #4b5563; margin-bottom: 8px; }
+        .item-meta { font-size: 11px; color: #6b7280; display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed #e5e7eb; padding-top: 6px; }
+        
+        .badge { font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; }
+        .badge-free { background: #dcfce7; color: #15803d; }
+        .badge-paid { background: #fef3c7; color: #b45309; }
+        .badge-active { background: #e0f2fe; color: #0369a1; }
+        .badge-inactive { background: #fee2e2; color: #b91c1c; }
+
         .q-options { font-size: 12px; color: #4b5563; display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-bottom: 8px; }
         .q-opt-item { background: #fff; padding: 4px 8px; border-radius: 4px; border: 1px solid #e5e7eb; }
         .q-opt-item.correct { border-color: #16a34a; background: #f0fdf4; color: #15803d; font-weight: 700; }
-        .q-meta { font-size: 11px; color: #9ca3af; display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed #e5e7eb; padding-top: 6px; }
         .btn-delete { background: #fee2e2; color: #dc2626; border: none; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <!-- Security Check Loading Screen -->
     <div id="auth-loader">
         <div class="spinner"></div>
         <p style="margin-top: 15px; font-size: 13px; font-weight: bold; color: #555;">Admin Verification चल्दैछ...</p>
     </div>
 
     <div class="admin-container">
-        <!-- Header -->
         <div class="header">
             <h1>Suraj Academy <span>Admin</span></h1>
             <div>
@@ -76,7 +74,6 @@
             </div>
         </div>
 
-        <!-- Dashboard Stats Overview -->
         <div class="stats-grid">
             <div class="stat-card">
                 <h3 id="stat-students">0</h3>
@@ -96,7 +93,6 @@
             </div>
         </div>
 
-        <!-- Admin Navigation Tabs -->
         <div class="admin-nav">
             <button onclick="switchAdminTab('questions')" id="tab-questions" class="active">Questions</button>
             <button onclick="switchAdminTab('tests')" id="tab-tests">Tests</button>
@@ -105,52 +101,25 @@
             <button onclick="switchAdminTab('users')" id="tab-users">Students</button>
         </div>
 
-        <!-- Content Panels -->
         <div class="content">
-            <!-- QUESTIONS MANAGER PANEL -->
+            <!-- 1. QUESTIONS MANAGER PANEL -->
             <div id="panel-questions">
                 <div class="section-title">
                     <span>📚 Questions List</span>
-                    <button class="btn-add" onclick="toggleQuestionForm(true)"><i class="fa-solid fa-plus"></i> Add New Question</button>
+                    <button class="btn-add" onclick="toggleForm('question-form-box', true)"><i class="fa-solid fa-plus"></i> Add Question</button>
                 </div>
 
-                <!-- ADD QUESTION FORM (TOGGLEABLE) -->
                 <div id="question-form-box" class="card-form hidden">
                     <h3 style="font-size: 14px; font-weight: 800; margin-bottom: 12px; color: #16a34a;">📝 नयाँ प्रश्न थप्नुहोस्</h3>
-                    
                     <form id="form-question" onsubmit="handleSaveQuestion(event)">
+                        <div class="form-group"><label>Category</label><input type="text" id="q-category" value="04 Nursing-Skill" required></div>
+                        <div class="form-group"><label>Japanese Question</label><textarea id="q-text" rows="3" required></textarea></div>
+                        <div class="form-group"><label>Option A</label><input type="text" id="q-opt-a" required></div>
+                        <div class="form-group"><label>Option B</label><input type="text" id="q-opt-b" required></div>
+                        <div class="form-group"><label>Option C</label><input type="text" id="q-opt-c" required></div>
+                        <div class="form-group"><label>Option D</label><input type="text" id="q-opt-d" required></div>
                         <div class="form-group">
-                            <label>Category (विधा)</label>
-                            <input type="text" id="q-category" placeholder="उदा: 04 Nursing-Skill" value="04 Nursing-Skill" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Japanese Question (जापानी भाषाको प्रश्न)</label>
-                            <textarea id="q-text" rows="3" placeholder="उदा: 高齢者の食事介助に関する説明で、正しいものを1つ選びなさい。" required></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Option A (विकल्प A)</label>
-                            <input type="text" id="q-opt-a" placeholder="Option A" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Option B (विकल्प B)</label>
-                            <input type="text" id="q-opt-b" placeholder="Option B" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Option C (विकल्प C)</label>
-                            <input type="text" id="q-opt-c" placeholder="Option C" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Option D (विकल्प D)</label>
-                            <input type="text" id="q-opt-d" placeholder="Option D" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Correct Answer (सही उत्तर)</label>
+                            <label>Correct Answer</label>
                             <select id="q-correct" required>
                                 <option value="A">Option A</option>
                                 <option value="B">Option B</option>
@@ -158,53 +127,69 @@
                                 <option value="D">Option D</option>
                             </select>
                         </div>
-
-                        <div class="form-group">
-                            <label>Explanation / Nepali Translation (व्याख्या/नेपाली अर्थ)</label>
-                            <textarea id="q-explain" rows="2" placeholder="यस प्रश्नको व्याख्या वा अनुवाद..."></textarea>
-                        </div>
-
-                        <button type="submit" class="btn-submit">Save Question to Database</button>
-                        <button type="button" class="btn-cancel" onclick="toggleQuestionForm(false)">Cancel</button>
+                        <div class="form-group"><label>Explanation / Nepali Translation</label><textarea id="q-explain" rows="2"></textarea></div>
+                        <button type="submit" class="btn-submit">Save Question</button>
+                        <button type="button" class="btn-cancel" onclick="toggleForm('question-form-box', false)">Cancel</button>
                     </form>
                 </div>
 
-                <!-- QUESTION LIST CONTAINER -->
-                <div id="questions-container">
-                    <p style="text-align: center; color: #888; font-size: 13px;">प्रश्नहरू लोड हुँदैछन्...</p>
-                </div>
+                <div id="questions-container"><p style="text-align: center; color: #888; font-size: 13px;">प्रश्नहरू लोड हुँदैछन्...</p></div>
             </div>
 
-            <!-- OTHER PANELS (PLACEHOLDERS) -->
-            <div id="panel-tests" class="hidden"><p style="padding: 20px; text-align: center;">Tests Manager Panel</p></div>
+            <!-- 2. TESTS MANAGER PANEL -->
+            <div id="panel-tests" class="hidden">
+                <div class="section-title">
+                    <span>⏱️ Mock Tests List</span>
+                    <button class="btn-add" onclick="toggleForm('test-form-box', true)"><i class="fa-solid fa-plus"></i> Create Test</button>
+                </div>
+
+                <div id="test-form-box" class="card-form hidden">
+                    <h3 style="font-size: 14px; font-weight: 800; margin-bottom: 12px; color: #16a34a;">🎯 नयाँ Test सिर्जना गर्नुहोस्</h3>
+                    <form id="form-test" onsubmit="handleSaveTest(event)">
+                        <div class="form-group"><label>Test Name</label><input type="text" id="t-name" required></div>
+                        <div class="form-group"><label>Category</label><input type="text" id="t-category" value="04 Nursing-Skill" required></div>
+                        <div class="form-group"><label>Description</label><textarea id="t-desc" rows="2"></textarea></div>
+                        <div class="form-group"><label>Timer (Minutes)</label><input type="number" id="t-timer" value="60" required></div>
+                        <div class="form-group">
+                            <label>Access Type</label>
+                            <select id="t-is-paid">
+                                <option value="false">Free Test</option>
+                                <option value="true">Paid Test</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Status</label>
+                            <select id="t-is-active">
+                                <option value="true">Active</option>
+                                <option value="false">Inactive</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-submit">Save Test</button>
+                        <button type="button" class="btn-cancel" onclick="toggleForm('test-form-box', false)">Cancel</button>
+                    </form>
+                </div>
+
+                <div id="tests-container"><p style="text-align: center; color: #888; font-size: 13px;">Tests लोड हुँदैछन्...</p></div>
+            </div>
+
             <div id="panel-packages" class="hidden"><p style="padding: 20px; text-align: center;">Packages Manager Panel</p></div>
             <div id="panel-payments" class="hidden"><p style="padding: 20px; text-align: center;">Payments Approval Panel</p></div>
             <div id="panel-users" class="hidden"><p style="padding: 20px; text-align: center;">Student Management Panel</p></div>
         </div>
     </div>
 
-    <!-- SUPABASE INTEGRATION & LOGIC -->
+    <!-- SUPABASE INTEGRATION SCRIPT -->
     <script type="module">
         import { supabase } from './supabase.js';
 
-        // 1. VERIFY ADMIN
         async function verifyAdminAccess() {
             try {
                 const { data: { user } } = await supabase.auth.getUser();
+                if (!user) { window.location.href = "login.html"; return; }
 
-                if (!user) {
-                    alert("कृपया पहिले लगइन गर्नुहोस्!");
-                    window.location.href = "login.html";
-                    return;
-                }
+                const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
 
-                const { data: profile, error } = await supabase
-                    .from('profiles')
-                    .select('role')
-                    .eq('id', user.id)
-                    .single();
-
-                if (error || !profile || profile.role !== 'admin') {
+                if (!profile || profile.role !== 'admin') {
                     alert("पहुँच अस्वीकृत! यो Dashboard केवल Admin को लागि हो।");
                     window.location.href = "index.html";
                     return;
@@ -213,15 +198,14 @@
                 document.getElementById('auth-loader').classList.add('hidden');
                 loadDashboardStats();
                 loadQuestions();
+                loadTests();
 
             } catch (err) {
                 console.error(err);
-                alert("Security checking error occurred.");
                 window.location.href = "index.html";
             }
         }
 
-        // 2. LOAD STATS
         async function loadDashboardStats() {
             const { count: qCount } = await supabase.from('questions').select('*', { count: 'exact', head: true });
             document.getElementById('stat-questions').innerText = qCount || 0;
@@ -236,40 +220,27 @@
             document.getElementById('stat-payments').innerText = pCount || 0;
         }
 
-        // 3. LOAD QUESTIONS FROM DATABASE
         async function loadQuestions() {
             const container = document.getElementById('questions-container');
-            container.innerHTML = '<p style="text-align: center; color: #888; font-size: 13px;">डाटा तान्दैछ...</p>';
+            const { data: questions, error } = await supabase.from('questions').select('*').order('created_at', { ascending: false });
 
-            const { data: questions, error } = await supabase
-                .from('questions')
-                .select('*')
-                .order('created_at', { ascending: false });
-
-            if (error) {
-                container.innerHTML = `<p style="color:red; text-align:center;">त्रुटि भयो: ${error.message}</p>`;
-                return;
-            }
-
-            if (!questions || questions.length === 0) {
-                container.innerHTML = '<p style="text-align: center; color: #888; font-size: 13px;">अहिलेसम्म कुनै प्रश्न थपिएको छैन।</p>';
-                return;
-            }
+            if (error) { container.innerHTML = `<p style="color:red; text-align:center;">त्रुटि: ${error.message}</p>`; return; }
+            if (!questions || questions.length === 0) { container.innerHTML = '<p style="text-align:center; color:#888;">कुनै प्रश्न भेटिएन।</p>'; return; }
 
             container.innerHTML = '';
             questions.forEach((q, idx) => {
                 const correct = q.correct_answer || q.answer;
                 const card = document.createElement('div');
-                card.className = 'q-card';
+                card.className = 'item-card';
                 card.innerHTML = `
-                    <div class="q-title">${questions.length - idx}. ${q.question_text || q.question}</div>
+                    <div class="item-title"><span>${questions.length - idx}. ${q.question_text || q.question}</span></div>
                     <div class="q-options">
-                        <div class="q-opt-item ${correct === 'A' || correct === '0' ? 'correct' : ''}">A: ${q.option_a || q.options?.[0] || ''}</div>
-                        <div class="q-opt-item ${correct === 'B' || correct === '1' ? 'correct' : ''}">B: ${q.option_b || q.options?.[1] || ''}</div>
-                        <div class="q-opt-item ${correct === 'C' || correct === '2' ? 'correct' : ''}">C: ${q.option_c || q.options?.[2] || ''}</div>
-                        <div class="q-opt-item ${correct === 'D' || correct === '3' ? 'correct' : ''}">D: ${q.option_d || q.options?.[3] || ''}</div>
+                        <div class="q-opt-item ${correct === 'A' ? 'correct' : ''}">A: ${q.option_a || ''}</div>
+                        <div class="q-opt-item ${correct === 'B' ? 'correct' : ''}">B: ${q.option_b || ''}</div>
+                        <div class="q-opt-item ${correct === 'C' ? 'correct' : ''}">C: ${q.option_c || ''}</div>
+                        <div class="q-opt-item ${correct === 'D' ? 'correct' : ''}">D: ${q.option_d || ''}</div>
                     </div>
-                    <div class="q-meta">
+                    <div class="item-meta">
                         <span>Category: <b>${q.category || 'Nursing'}</b></span>
                         <button onclick="handleDeleteQuestion('${q.id}')" class="btn-delete"><i class="fa-solid fa-trash"></i> Delete</button>
                     </div>
@@ -278,87 +249,87 @@
             });
         }
 
-        // 4. SAVE NEW QUESTION TO SUPABASE
         window.handleSaveQuestion = async function(e) {
             e.preventDefault();
-            
-            const category = document.getElementById('q-category').value;
-            const question_text = document.getElementById('q-text').value;
-            const option_a = document.getElementById('q-opt-a').value;
-            const option_b = document.getElementById('q-opt-b').value;
-            const option_c = document.getElementById('q-opt-c').value;
-            const option_d = document.getElementById('q-opt-d').value;
-            const correct_answer = document.getElementById('q-correct').value;
-            const explanation = document.getElementById('q-explain').value;
+            const payload = {
+                category: document.getElementById('q-category').value,
+                question_text: document.getElementById('q-text').value,
+                option_a: document.getElementById('q-opt-a').value,
+                option_b: document.getElementById('q-opt-b').value,
+                option_c: document.getElementById('q-opt-c').value,
+                option_d: document.getElementById('q-opt-d').value,
+                correct_answer: document.getElementById('q-correct').value,
+                explanation: document.getElementById('q-explain').value
+            };
 
-            const { data, error } = await supabase
-                .from('questions')
-                .insert([{
-                    category,
-                    question_text,
-                    option_a,
-                    option_b,
-                    option_c,
-                    option_d,
-                    correct_answer,
-                    explanation
-                }]);
-
-            if (error) {
-                alert("Question थप्न सकिएन: " + error.message);
-            } else {
-                alert("🎉 प्रश्न सफलतापूर्वक Supabase Database मा थपियो!");
+            const { error } = await supabase.from('questions').insert([payload]);
+            if (error) alert("Error: " + error.message);
+            else {
+                alert("🎉 Question थपियो!");
                 document.getElementById('form-question').reset();
-                toggleQuestionForm(false);
+                toggleForm('question-form-box', false);
                 loadQuestions();
                 loadDashboardStats();
             }
         }
 
-        // 5. DELETE QUESTION FROM SUPABASE
         window.handleDeleteQuestion = async function(id) {
-            if (confirm("के तपाईं यो प्रश्न हटाउन निश्चित हुनुहुन्छ?")) {
-                const { error } = await supabase
-                    .from('questions')
-                    .delete()
-                    .eq('id', id);
-
-                if (error) {
-                    alert("Delete गर्न सकिएन: " + error.message);
-                } else {
-                    alert("प्रश्न हटाइयो!");
-                    loadQuestions();
-                    loadDashboardStats();
-                }
+            if (confirm("के यो प्रश्न हटाउन चाहनुहुन्छ?")) {
+                await supabase.from('questions').delete().eq('id', id);
+                loadQuestions();
+                loadDashboardStats();
             }
         }
 
-        // TOGGLE FORM VISIBILITY
-        window.toggleQuestionForm = function(show) {
-            const formBox = document.getElementById('question-form-box');
-            if (show) formBox.classList.remove('hidden');
-            else formBox.classList.add('hidden');
-        }
+        async function loadTests() {
+            const container = document.getElementById('tests-container');
+            const { data: tests, error } = await supabase.from('tests').select('*').order('created_at', { ascending: false });
 
-        // TAB SWITCHING
-        window.switchAdminTab = function(tabName) {
-            ['questions', 'tests', 'packages', 'payments', 'users'].forEach(t => {
-                document.getElementById('panel-' + t).classList.add('hidden');
-                document.getElementById('tab-' + t).classList.remove('active');
+            if (error) { container.innerHTML = `<p style="color:red; text-align:center;">त्रुटि: ${error.message}</p>`; return; }
+            if (!tests || tests.length === 0) { container.innerHTML = '<p style="text-align:center; color:#888;">कुनै Test सिर्जना गरिएको छैन।</p>'; return; }
+
+            container.innerHTML = '';
+            tests.forEach((t) => {
+                const card = document.createElement('div');
+                card.className = 'item-card';
+                card.innerHTML = `
+                    <div class="item-title">
+                        <span>${t.title || t.name || 'Untitled Test'}</span>
+                        <div>
+                            <span class="badge ${t.is_paid ? 'badge-paid' : 'badge-free'}">${t.is_paid ? 'Paid' : 'Free'}</span>
+                            <span class="badge ${t.is_active ? 'badge-active' : 'badge-inactive'}">${t.is_active ? 'Active' : 'Inactive'}</span>
+                        </div>
+                    </div>
+                    <div class="item-desc">${t.description || 'कुनै विवरण छैन।'}</div>
+                    <div class="item-meta">
+                        <span>⏱️ ${t.timer_minutes || t.timer || 60} मिनेट | Category: <b>${t.category || 'Nursing'}</b></span>
+                        <button onclick="handleDeleteTest('${t.id}')" class="btn-delete"><i class="fa-solid fa-trash"></i> Delete</button>
+                    </div>
+                `;
+                container.appendChild(card);
             });
-            document.getElementById('panel-' + tabName).classList.remove('hidden');
-            document.getElementById('tab-' + tabName).classList.add('active');
         }
 
-        // LOGOUT
-        window.handleAdminLogout = async function() {
-            await supabase.auth.signOut();
-            window.location.href = "login.html";
+        window.handleSaveTest = async function(e) {
+            e.preventDefault();
+            const payload = {
+                title: document.getElementById('t-name').value,
+                category: document.getElementById('t-category').value,
+                description: document.getElementById('t-desc').value,
+                timer_minutes: parseInt(document.getElementById('t-timer').value),
+                is_paid: document.getElementById('t-is-paid').value === 'true',
+                is_active: document.getElementById('t-is-active').value === 'true'
+            };
+
+            const { error } = await supabase.from('tests').insert([payload]);
+            if (error) alert("Test सेभ गर्न सकिएन: " + error.message);
+            else {
+                alert("🎉 Test सफलतापूर्वक सिर्जना भयो!");
+                document.getElementById('form-test').reset();
+                toggleForm('test-form-box', false);
+                loadTests();
+                loadDashboardStats();
+            }
         }
 
-        // INITIALIZE
-        verifyAdminAccess();
-    </script>
-</body>
-    </html>
-                
+   
