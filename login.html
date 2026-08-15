@@ -3,249 +3,147 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Login & Register - Suraj Japanese Academy</title>
+    <title>Login / Register - Suraj Japanese Academy</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+        body { background: #f4f7f6; color: #333; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        
+        .auth-card { background: white; max-width: 400px; width: 100%; padding: 25px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
+        .auth-title { text-align: center; font-size: 20px; font-weight: 800; color: #111; margin-bottom: 5px; }
+        .auth-subtitle { text-align: center; font-size: 13px; color: #666; margin-bottom: 20px; }
 
-        body {
-            background-color: #f4f7f6;
-            color: #333;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
+        .tabs { display: flex; border-bottom: 2px solid #eee; margin-bottom: 20px; }
+        .tab-btn { flex: 1; padding: 10px; border: none; background: none; font-size: 14px; font-weight: bold; color: #888; cursor: pointer; }
+        .tab-btn.active { color: #16a34a; border-bottom: 3px solid #16a34a; }
 
-        /* Header Bar */
-        header {
-            background-color: #1a5276;
-            color: white;
-            padding: 15px 20px;
-            text-align: center;
-        }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 12px; font-weight: 700; color: #444; margin-bottom: 5px; }
+        .form-group input { width: 100%; padding: 11px; border: 1.5px solid #ddd; border-radius: 8px; font-size: 14px; outline: none; }
+        .form-group input:focus { border-color: #16a34a; }
 
-        .academy-name {
-            font-size: 1.1rem;
-            font-weight: bold;
-        }
+        .btn-submit { width: 100%; background: #16a34a; color: white; padding: 12px; border: none; border-radius: 8px; font-weight: bold; font-size: 15px; cursor: pointer; margin-top: 10px; }
+        .btn-submit:disabled { background: #a3e635; cursor: not-allowed; }
 
-        /* Main Container */
-        .container {
-            padding: 20px;
-            max-width: 450px;
-            width: 100%;
-            margin: auto;
-        }
-
-        .back-link {
-            display: inline-block;
-            margin-bottom: 20px;
-            color: #1a5276;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 0.9rem;
-        }
-
-        /* Auth Card */
-        .auth-card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            overflow: hidden;
-        }
-
-        /* Tab Switcher */
-        .tab-box {
-            display: flex;
-            background-color: #eaeaea;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .tab-btn {
-            flex: 1;
-            padding: 14px;
-            border: none;
-            background: none;
-            font-weight: bold;
-            font-size: 1rem;
-            color: #666;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .tab-btn.active {
-            background-color: white;
-            color: #1a5276;
-            border-bottom: 3px solid #1a5276;
-        }
-
-        /* Form Area */
-        .form-content {
-            padding: 25px 20px;
-        }
-
-        .form-group {
-            margin-bottom: 18px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 6px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: #444;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 12px 14px;
-            border: 1.5px solid #ccc;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .form-group input:focus {
-            border-color: #3498db;
-        }
-
-        .btn-submit {
-            width: 100%;
-            padding: 12px;
-            background-color: #1a5276;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: background 0.2s;
-        }
-
-        .btn-submit:hover {
-            background-color: #143e59;
-        }
-
-        /* Form Visibility Toggle */
-        #register-form {
-            display: none;
-        }
-
-        /* Footer Note */
-        footer {
-            text-align: center;
-            padding: 15px;
-            font-size: 0.8rem;
-            color: #777;
-        }
+        .hidden { display: none !important; }
+        .msg-box { font-size: 13px; text-align: center; margin-top: 15px; padding: 8px; border-radius: 6px; }
+        .msg-error { background: #fee2e2; color: #dc2626; }
+        .msg-success { background: #dcfce7; color: #16a34a; }
     </style>
 </head>
 <body>
 
-    <!-- Header Bar -->
-    <header>
-        <div class="academy-name">Suraj Japanese Academy</div>
-    </header>
+    <div class="auth-card">
+        <h2 class="auth-title">Suraj Japanese Academy</h2>
+        <p class="auth-subtitle">तपाईंको अकाउन्टमा लगइन गर्नुहोस्</p>
 
-    <div class="container">
-        <a href="index.html" class="back-link">← Home Page मा फर्कनुहोस्</a>
-
-        <div class="auth-card">
-            <!-- Tabs -->
-            <div class="tab-box">
-                <button class="tab-btn active" id="tab-login" onclick="switchTab('login')">Login (लगइन)</button>
-                <button class="tab-btn" id="tab-register" onclick="switchTab('register')">Register (दर्ता)</button>
-            </div>
-
-            <div class="form-content">
-                
-                <!-- 1. LOGIN FORM -->
-                <form id="login-form" onsubmit="handleLogin(event)">
-                    <div class="form-group">
-                        <label for="login-email">इमेल वा फोन नम्बर (Email / Mobile)</label>
-                        <input type="text" id="login-email" placeholder="उदाहरण: 9800000000" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="login-password">पासवर्ड (Password)</label>
-                        <input type="password" id="login-password" placeholder="••••••••" required>
-                    </div>
-
-                    <button type="submit" class="btn-submit">Login गर्नुहोस्</button>
-                </form>
-
-                <!-- 2. REGISTER FORM -->
-                <form id="register-form" onsubmit="handleRegister(event)">
-                    <div class="form-group">
-                        <label for="reg-name">पुरा नाम (Full Name)</label>
-                        <input type="text" id="reg-name" placeholder="उदाहरण: Suraj Gurung" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="reg-email">इमेल वा फोन नम्बर (Email / Mobile)</label>
-                        <input type="text" id="reg-email" placeholder="उदाहरण: suraj@gmail.com" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="reg-password">नयाँ पासवर्ड (Password)</label>
-                        <input type="password" id="reg-password" placeholder="कम्तिमा ६ वटा अक्षर/अङ्क" required minlength="6">
-                    </div>
-
-                    <button type="submit" class="btn-submit" style="background-color: #27ae60;">Register (खाता बनाउनुहोस्)</button>
-                </form>
-
-            </div>
+        <div class="tabs">
+            <button class="tab-btn active" id="tab-login-btn" onclick="toggleTab('login')">Login</button>
+            <button class="tab-btn" id="tab-signup-btn" onclick="toggleTab('signup')">Register</button>
         </div>
+
+        <!-- LOGIN FORM -->
+        <form id="login-form" onsubmit="handleAuth(event, 'login')">
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="login-email" placeholder="example@gmail.com" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="login-password" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="btn-submit" id="login-btn">Login</button>
+        </form>
+
+        <!-- SIGNUP FORM -->
+        <form id="signup-form" class="hidden" onsubmit="handleAuth(event, 'signup')">
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="signup-name" placeholder="राम बहादुर" required>
+            </div>
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="signup-email" placeholder="example@gmail.com" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="signup-password" placeholder="न्यूनतम ६ अक्षर" minlength="6" required>
+            </div>
+            <button type="submit" class="btn-submit" id="signup-btn">Register</button>
+        </form>
+
+        <div id="auth-msg" class="msg-box hidden"></div>
     </div>
 
-    <footer>
-        <p>&copy; 2026 Suraj Japanese Academy</p>
-    </footer>
+    <!-- SUPABASE MODULE -->
+    <script type="module">
+        import { supabase } from './supabase.js';
 
-    <!-- JavaScript Logic -->
-    <script>
-        // Tab Switch logic (Login र Register बिच साट्न)
-        function switchTab(tab) {
-            const loginForm = document.getElementById('login-form');
-            const regForm = document.getElementById('register-form');
-            const tabLogin = document.getElementById('tab-login');
-            const tabReg = document.getElementById('tab-register');
-
-            if (tab === 'login') {
-                loginForm.style.display = 'block';
-                regForm.style.display = 'none';
-                tabLogin.classList.add('active');
-                tabReg.classList.remove('active');
+        window.toggleTab = function(tab) {
+            document.getElementById('auth-msg').classList.add('hidden');
+            if(tab === 'login') {
+                document.getElementById('login-form').classList.remove('hidden');
+                document.getElementById('signup-form').classList.add('hidden');
+                document.getElementById('tab-login-btn').classList.add('active');
+                document.getElementById('tab-signup-btn').classList.remove('active');
             } else {
-                loginForm.style.display = 'none';
-                regForm.style.display = 'block';
-                tabReg.classList.add('active');
-                tabLogin.classList.remove('active');
+                document.getElementById('signup-form').classList.remove('hidden');
+                document.getElementById('login-form').classList.add('hidden');
+                document.getElementById('tab-signup-btn').classList.add('active');
+                document.getElementById('tab-login-btn').classList.remove('active');
             }
         }
 
-        // Temporary Login Handler
-        function handleLogin(e) {
+        window.handleAuth = async function(e, type) {
             e.preventDefault();
-            const email = document.getElementById('login-email').value;
-            alert(`स्वागत छ! ${email}\n(Backend / Database जोड्ने काम STEP 7 मा हुनेछ!)`);
-            location.href = 'index.html';
-        }
+            const msgBox = document.getElementById('auth-msg');
+            msgBox.classList.add('hidden');
+            
+            if (type === 'login') {
+                const email = document.getElementById('login-email').value;
+                const password = document.getElementById('login-password').value;
+                const btn = document.getElementById('login-btn');
+                btn.innerText = "प्रक्रिया हुँदैछ...";
+                btn.disabled = true;
 
-        // Temporary Register Handler
-        function handleRegister(e) {
-            e.preventDefault();
-            const name = document.getElementById('reg-name').value;
-            alert(`बधाई छ ${name}! तपाईंको खाता तयार भयो।\n(अब लगइन गर्नुहोस्)`);
-            switchTab('login');
+                const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+
+                if (error) {
+                    msgBox.innerText = "त्रुटि: " + error.message;
+                    msgBox.className = "msg-box msg-error";
+                    btn.innerText = "Login";
+                    btn.disabled = false;
+                } else {
+                    msgBox.innerText = "सफलतापूर्वक Login भयो! Redirect हुँदैछ...";
+                    msgBox.className = "msg-box msg-success";
+                    setTimeout(() => { window.location.href = "index.html"; }, 1000);
+                }
+            } else {
+                const fullName = document.getElementById('signup-name').value;
+                const email = document.getElementById('signup-email').value;
+                const password = document.getElementById('signup-password').value;
+                const btn = document.getElementById('signup-btn');
+                btn.innerText = "अकाउन्ट बनाइँदैछ...";
+                btn.disabled = true;
+
+                const { data, error } = await supabase.auth.signUp({
+                    email,
+                    password,
+                    options: { data: { full_name: fullName } }
+                });
+
+                if (error) {
+                    msgBox.innerText = "त्रुटि: " + error.message;
+                    msgBox.className = "msg-box msg-error";
+                    btn.innerText = "Register";
+                    btn.disabled = false;
+                } else {
+                    msgBox.innerText = "अकाउन्ट सिर्जना भयो! Login गर्नुहोस्।";
+                    msgBox.className = "msg-box msg-success";
+                    toggleTab('login');
+                }
+            }
         }
     </script>
-
 </body>
 </html>
