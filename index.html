@@ -146,6 +146,9 @@
             padding: 3px 8px;
             border-radius: 12px;
             font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
         }
 
         .badge-green {
@@ -176,7 +179,7 @@
         }
 
         .package-title {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: bold;
             color: #111;
             margin-bottom: 10px;
@@ -261,23 +264,67 @@
 
     <!-- Navigation Tabs -->
     <div class="nav-tabs">
-        <button class="tab-btn" onclick="showTab('my-packages')">My Packages</button>
-        <button class="tab-btn active" onclick="showTab('buy-packages')">Buy Packages</button>
-        <button class="tab-btn" onclick="showTab('free')">Free</button>
+        <button class="tab-btn" onclick="showTab('my-packages', this)">My Packages</button>
+        <button class="tab-btn" onclick="showTab('buy-packages', this)">Buy Packages</button>
+        <button class="tab-btn active" onclick="showTab('free', this)">Free</button>
     </div>
 
-    <!-- TAB 1: BUY PACKAGES -->
-    <div id="buy-packages" class="tab-content">
-        <!-- Category Dropdown -->
-        <div class="filter-container">
-            <span class="filter-label">Choose Category Test</span>
-            <select class="category-select">
-                <option>04 Nursing-Skill</option>
-                <option>Japanese Language</option>
-            </select>
+    <!-- Category Filter -->
+    <div class="filter-container">
+        <span class="filter-label">Choose Category Test</span>
+        <select class="category-select">
+            <option>04 Nursing-Skill</option>
+            <option>Japanese Language</option>
+        </select>
+    </div>
+
+    <!-- TAB 1: FREE PACKAGES -->
+    <div id="free" class="tab-content">
+        
+        <!-- Free Card 1: Nepali -->
+        <div class="package-card">
+            <div class="card-badges">
+                <span class="badge badge-green"><i class="fa-regular fa-clock"></i> 60 Min Timer</span>
+                <span class="badge badge-outline"><i class="fa-regular fa-circle-dot"></i> 2 mock tests</span>
+                <span class="sub-badge" style="margin:0;">04 Nursing-Skill</span>
+            </div>
+            
+            <div class="package-title" style="margin-top: 10px;">
+                Nursing (🇳🇵 Nepali)
+            </div>
+            
+            <div class="card-body">
+                <div class="learn-more">
+                    <i class="fa-regular fa-circle-play"></i> Learn More <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <a href="test.html?lang=nepali" class="buy-btn">Start Test</a>
+            </div>
         </div>
 
-        <!-- Package 1 -->
+        <!-- Free Card 2: Japanese -->
+        <div class="package-card">
+            <div class="card-badges">
+                <span class="badge badge-green"><i class="fa-regular fa-clock"></i> 60 Min Timer</span>
+                <span class="badge badge-outline"><i class="fa-regular fa-circle-dot"></i> 2 mock tests</span>
+                <span class="sub-badge" style="margin:0;">04 Nursing-Skill</span>
+            </div>
+            
+            <div class="package-title" style="margin-top: 10px;">
+                Nursing (🇯🇵 Japanese)
+            </div>
+            
+            <div class="card-body">
+                <div class="learn-more">
+                    <i class="fa-regular fa-circle-play"></i> Learn More <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <a href="test.html?lang=japanese" class="buy-btn">Start Test</a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- TAB 2: BUY PACKAGES -->
+    <div id="buy-packages" class="tab-content hidden">
         <div class="package-card">
             <div class="card-badges">
                 <span class="badge badge-green"><i class="fa-regular fa-clock"></i> 5 days</span>
@@ -299,64 +346,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Package 2 -->
-        <div class="package-card">
-            <div class="card-badges">
-                <span class="badge badge-green"><i class="fa-regular fa-clock"></i> 10 days</span>
-                <span class="badge badge-outline">45 mock tests</span>
-            </div>
-            <div class="sub-badge">04 Nursing-Skill</div>
-            
-            <div class="card-body">
-                <div>
-                    <div class="package-title">Nursing (Japanese)<br>[10d_50t]</div>
-                    <div class="learn-more">
-                        <i class="fa-regular fa-circle-play"></i> Learn More <i class="fa-solid fa-chevron-down"></i>
-                    </div>
-                </div>
-                <div class="price-section">
-                    <div class="old-price">500.0</div>
-                    <div class="new-price">380</div>
-                    <a href="payment.html" class="buy-btn">Buy Now</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Package 3 -->
-        <div class="package-card">
-            <div class="card-badges">
-                <span class="badge badge-green"><i class="fa-regular fa-clock"></i> 20 days</span>
-                <span class="badge badge-outline">45 mock tests</span>
-            </div>
-            <div class="sub-badge">04 Nursing-Skill</div>
-            
-            <div class="card-body">
-                <div>
-                    <div class="package-title">Nursing (Japanese) +<br>Meaning [20d_50t]</div>
-                    <div class="learn-more">
-                        <i class="fa-regular fa-circle-play"></i> Learn More <i class="fa-solid fa-chevron-down"></i>
-                    </div>
-                </div>
-                <div class="price-section">
-                    <div class="old-price">700.0</div>
-                    <div class="new-price">500</div>
-                    <a href="payment.html" class="buy-btn">Buy Now</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- TAB 2: FREE EXAMS -->
-    <div id="free" class="tab-content hidden">
-        <div class="package-card">
-            <div class="card-badges">
-                <span class="badge badge-green">FREE</span>
-            </div>
-            <div class="package-title">Free Japanese Nursing Practice Test</div>
-            <br>
-            <a href="test.html" class="buy-btn" style="width: 100%; text-align: center;">Start Test Now</a>
-        </div>
     </div>
 
     <!-- TAB 3: MY PACKAGES -->
@@ -367,18 +356,12 @@
     </div>
 
     <script>
-        function showTab(tabId) {
-            // Hide all tab contents
+        function showTab(tabId, btnElement) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-            
-            // Remove active class from all buttons
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             
-            // Show selected tab content
             document.getElementById(tabId).classList.remove('hidden');
-            
-            // Set active class on clicked button
-            event.currentTarget.classList.add('active');
+            btnElement.classList.add('active');
         }
     </script>
 </body>
